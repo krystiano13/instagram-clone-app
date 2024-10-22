@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.w-calc {
+  width: 100vw;
+
+  @media screen and (max-width: 640px) {
+    width: calc(100vw - 20rem);
+  }
+}
+
 img {
   transition: 250ms;
   cursor: pointer;
