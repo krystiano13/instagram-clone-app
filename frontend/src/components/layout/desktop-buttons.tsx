@@ -1,6 +1,6 @@
 export function DesktopButtons() {
   return (
-    <section className="card w-[100vw] sm:w-[20rem] sm:h-[100vh] rounded-none">
+    <section className="card w-[100vw] sm:w-[20rem] sm:h-[100vh] p-4 pt-12 sm:p-0 rounded-none">
       <div className="drawer-header hidden sm:block">
         <h3 className="drawer-title">Instagram Clone</h3>
       </div>

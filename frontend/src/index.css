@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+img {
+  transition: 250ms;
+  cursor: pointer;
+}
+
+img:hover {
+  filter: brightness(0.5);
+}
