@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.content {
-  width: calc(100vw - 20rem)
-}
-
 img {
   transition: 250ms;
   cursor: pointer;
