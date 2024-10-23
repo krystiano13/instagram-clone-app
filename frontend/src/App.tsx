@@ -9,6 +9,7 @@ import { Explore } from "./views/explore"
 import { Search } from "./views/search"
 import { Create } from "./views/create"
 import { Post } from "./views/post"
+import { Profile } from "./views/profile"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/create" element={<Create />} />
           <Route path="/post" element={<Post />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </BrowserRouter>
