@@ -48,7 +48,7 @@ export function Layout({ children }: Props) {
             "sm:ml-[20rem]"
           }`}
         >
-          <section className="content mt-12">{children}</section>
+          <section className="w-calc content mt-12">{children}</section>
         </div>
       </main>
     </div>

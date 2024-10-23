@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Layout } from "./components/layout/Layout"
 
 //views
+import { Home } from "./views/home"
 import { Login } from "./views/login"
 import { Register } from "./views/register"
 import { Explore } from "./views/explore"
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/explore" element={<Explore />} />

@@ -14,9 +14,9 @@ export function DesktopButtons() {
         <button className="w-full flex btn btn-soft btn-primary">
           <span className="w-32 sm:h-auto sm:inline">Explore</span>
         </button>
-        <button className="w-full flex btn btn-soft btn-primary">
+        {/* <button className="w-full flex btn btn-soft btn-primary">
           <span className="w-32 sm:h-auto sm:inline">Notifications</span>
-        </button>
+        </button> */}
         <button className="w-full flex btn btn-soft btn-primary">
           <span className="w-32 sm:h-auto sm:inline">Create</span>
         </button>
