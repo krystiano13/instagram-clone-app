@@ -22,16 +22,18 @@ class PostController < ApplicationController
     end
 
     def index_follows_only
-        followers = Follower.where("follower_id", params[:user_id])
+        followers = Follower.where(follower_id: params[:user_id])
         follower_ids = []
 
         followers.each do |follower|
             follower_ids.push(follower[:user_id])
         end
 
-        posts = Post.where("user_id", follower_ids)
+        posts = Post.where(user_id: follower_ids)
         render json: {
-            :posts => posts
+            :posts => posts,
+            :followers => followers,
+            :user_id => params[:user_id]
         }, status: 200
     end
 
@@ -72,5 +74,4 @@ class PostController < ApplicationController
     def post_params
         params.permit(:image, :description, :user_id)
     end
-
 end
