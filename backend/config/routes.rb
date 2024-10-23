@@ -23,4 +23,8 @@ Rails.application.routes.draw do
 
   post "likes", to: "like#create"
   delete "likes/:id", to: "like#destroy"
+
+  get "comments/:post_id", to: "comment#index"
+  post "comments", to: "comment#create"
+  delete "comments/:id", to: "comment#destroy"
 end
