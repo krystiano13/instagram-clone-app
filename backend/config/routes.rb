@@ -20,4 +20,7 @@ Rails.application.routes.draw do
   post "posts", to: "post#create"
   patch "posts/:id", to: "post#update"
   delete "posts/:id", to: "post#destroy"
+
+  post "likes", to: "like#create"
+  delete "likes/:id", to: "like#destroy"
 end
