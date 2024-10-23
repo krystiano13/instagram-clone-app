@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :users
+  resources :user
   post "auth/login", to: "authentication#login"
+
+  get "followers/:user_id/:follower_id", to: "follower#index"
+  post "followers", to: "follower#create"
+  delete "followers/:user_id/:follower_id", to: "follower#destroy"
 end
