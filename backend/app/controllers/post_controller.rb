@@ -11,7 +11,15 @@ class PostController < ApplicationController
             likes_post_ids.push(like[:post_id])
         end
 
-        @posts.each do |post|
+        posts_with_images = @posts.map do |post|
+            if post.image.attached?
+                post.as_json.merge(image: url_for(post.image))
+            else
+                post.as_json.merge(image: nil)
+            end
+        end
+
+        posts_with_images.each do |post|
             if likes_post_ids.include?(post[:id])
                 posts_with_likes.unshift([:post => post, :like => true])
             else
@@ -25,21 +33,28 @@ class PostController < ApplicationController
     end
 
     def show
-        post = Post.find(params[:id])
-        like = false
+        begin
+            post = Post.find(params[:id])
+            like = false
+            post_with_image = []
 
-        like_value = Like.where(post_id: params[:id])
+            like_value = Like.where(post_id: params[:id])
 
-        if like_value.present?
-            like = true
-        end
+            if like_value.present?
+                like = true
+            end
 
-        if post.present?
+            if post.image.attached?
+                post_with_image = post.as_json.merge(image: url_for(post.image))
+            else
+                post_with_image = post.as_json.merge(image: nil)
+            end
+
             render json: {
-                :post => post,
+                :post => post_with_image,
                 :like => like
             }, status: 200
-        else
+        rescue
             render json: {
                 :errors => ["Not found"]
             }, status: 404
@@ -64,7 +79,15 @@ class PostController < ApplicationController
             likes_post_ids.push(like[:post_id])
         end
 
-        posts.each do |post|
+        posts_with_images = @posts.map do |post|
+            if post.image.attached?
+                post.as_json.merge(image: url_for(post.image))
+            else
+                post.as_json.merge(image: nil)
+            end
+        end
+
+        posts_with_images.each do |post|
             if likes_post_ids.include?(post[:id])
                 posts_with_likes.unshift([:post => post, :like => true])
             else
