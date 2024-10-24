@@ -1,5 +1,4 @@
 class FollowerController < ApplicationController
-    skip_before_action :authenticate_user
     def index
         follower_id = params[:follower_id]
         user_id = params[:user_id]

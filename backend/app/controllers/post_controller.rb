@@ -1,5 +1,4 @@
 class PostController < ApplicationController
-    skip_before_action :authenticate_user
     def index
         @posts = Post.order(created_at: :desc)
         posts_with_likes = []
