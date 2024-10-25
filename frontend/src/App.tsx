@@ -17,20 +17,20 @@ import { AuthContextProvider } from "./contexts/auth-context-provider.tsx";
 function App() {
   return (
     <BrowserRouter>
-      <AuthContextProvider>
         <Layout>
+          <AuthContextProvider>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/post" element={<Post />} />
-            <Route path="/profile" element={<Profile />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/explore" element={<Explore />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/post" element={<Post />} />
+              <Route path="/profile" element={<Profile />} />
           </Routes>
+          </AuthContextProvider>
         </Layout>
-      </AuthContextProvider>
     </BrowserRouter>
   )
 }

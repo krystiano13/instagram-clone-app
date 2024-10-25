@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import {useLocation, useNavigate } from "react-router";
 
 const initialValue = {
     isLogged: false,
@@ -14,7 +15,22 @@ interface Props {
 }
 
 export function AuthContextProvider({ children }: Props) {
-    const [isLogged, setIsLogged] = useState<boolean>(false);
+    const [isLogged, setIsLogged] = useState<boolean>(false)
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(location.pathname === "/login" || location.pathname === "/register") {
+            if(isLogged) {
+                navigate("/")
+            }
+        }
+        else {
+            if(!isLogged) {
+                navigate("/login")
+            }
+        }
+    }, [location.pathname])
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -31,6 +47,7 @@ export function AuthContextProvider({ children }: Props) {
             }
         })
             .then(res => {
+                console.log(res)
                 if(res.ok) {
                     setIsLogged(true)
                 }
