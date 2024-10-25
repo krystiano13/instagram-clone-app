@@ -27,10 +27,6 @@ export function Explore() {
     })
 
     observer.observe(document.querySelector("#masonry") as HTMLDivElement)
-
-    return () => {
-      observer.unobserve(document.querySelector("#masonry") as HTMLDivElement)
-    }
   }, [])
 
   return (
