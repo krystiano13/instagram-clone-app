@@ -16,10 +16,12 @@ interface Props {
 
 export function AuthContextProvider({children}: Props) {
     const [isLogged, setIsLogged] = useState<boolean>(false)
+    const [firstRender, setFirstRender] = useState<boolean>(false)
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
+        if(!firstRender) return
         if (location.pathname === "/login" || location.pathname === "/register") {
             if (isLogged) {
                 navigate("/")
@@ -51,6 +53,7 @@ export function AuthContextProvider({children}: Props) {
                 } else {
                     setIsLogged(false)
                 }
+                setFirstRender(true)
             })
 
     }, [])
