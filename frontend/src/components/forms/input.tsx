@@ -2,12 +2,14 @@ interface Props {
   type: string
   placeholder: string
   label: string
+  name: string
 }
 
-export function Input({ type, placeholder, label }: Props) {
+export function Input({ type, placeholder, label, name }: Props) {
   return (
     <div className="form-control w-full">
       <input
+        name={name}
         required
         type={type}
         placeholder={placeholder as string}

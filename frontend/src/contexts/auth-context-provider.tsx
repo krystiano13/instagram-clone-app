@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from "react";
-import {useLocation, useNavigate } from "react-router";
+import {createContext, useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router";
 
 const initialValue = {
     isLogged: false,
@@ -8,25 +8,24 @@ const initialValue = {
     }
 }
 
-const AuthContext = createContext(initialValue)
+export const AuthContext = createContext(initialValue)
 
 interface Props {
     children: React.ReactNode
 }
 
-export function AuthContextProvider({ children }: Props) {
+export function AuthContextProvider({children}: Props) {
     const [isLogged, setIsLogged] = useState<boolean>(false)
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(location.pathname === "/login" || location.pathname === "/register") {
-            if(isLogged) {
+        if (location.pathname === "/login" || location.pathname === "/register") {
+            if (isLogged) {
                 navigate("/")
             }
-        }
-        else {
-            if(!isLogged) {
+        } else {
+            if (!isLogged) {
                 navigate("/login")
             }
         }
@@ -37,7 +36,7 @@ export function AuthContextProvider({ children }: Props) {
         const id = localStorage.getItem("id")
         const username = localStorage.getItem("username")
 
-        if(!token || !id || !username) return;
+        if (!token || !id || !username) return;
 
         fetch("http://127.0.0.1:3000/user", {
             method: "GET",
@@ -47,11 +46,9 @@ export function AuthContextProvider({ children }: Props) {
             }
         })
             .then(res => {
-                console.log(res)
-                if(res.ok) {
+                if (res.ok) {
                     setIsLogged(true)
-                }
-                else {
+                } else {
                     setIsLogged(false)
                 }
             })
@@ -59,8 +56,8 @@ export function AuthContextProvider({ children }: Props) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isLogged, setIsLogged }}>
-            { children }
+        <AuthContext.Provider value={{isLogged, setIsLogged}}>
+            {children}
         </AuthContext.Provider>
     )
 }
