@@ -40,6 +40,8 @@ class PostController < ApplicationController
 
             like_value = Like.where(post_id: params[:id])
 
+            user = User.find_by(id: post.values[1])
+
             if like_value.present?
                 like = true
             end
@@ -52,7 +54,8 @@ class PostController < ApplicationController
 
             render json: {
                 :post => post_with_image,
-                :like => like
+                :like => like,
+                :name => user[:user_name]
             }, status: 200
         rescue
             render json: {
