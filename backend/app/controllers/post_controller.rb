@@ -78,7 +78,7 @@ class PostController < ApplicationController
             likes_post_ids.push(like[:post_id])
         end
 
-        posts_with_images = @posts.map do |post|
+        posts_with_images = posts.map do |post|
             if post.image.attached?
                 post.as_json.merge(image: url_for(post.image))
             else

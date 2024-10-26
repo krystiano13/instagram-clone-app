@@ -36,7 +36,7 @@ export function AuthContextProvider({ children }: Props) {
   useEffect(() => {
     const token = localStorage.getItem("token")
     const id = localStorage.getItem("id")
-    const username = localStorage.getItem("username")
+    const username = localStorage.getItem("user_name")
 
     if (!token || !id || !username) {
       navigate("/login")
