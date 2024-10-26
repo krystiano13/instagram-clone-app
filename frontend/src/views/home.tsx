@@ -10,7 +10,7 @@ export function Home() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:3000/posts/followers/${localStorage.getItem("id")}`, {
+        fetch(`http://127.0.0.1:3000/posts/`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -24,6 +24,7 @@ export function Home() {
                 return res.json()
             })
             .then((data: { posts: Post[] }) => {
+                console.log(data)
                 setPosts([...data.posts as Post[]])
             })
     }, []);
@@ -31,16 +32,16 @@ export function Home() {
     return (
       <div className="w-calc min-h-[100vh] flex flex-col items-center p-6 gap-12 bg-slate-50">
           {
-              posts.map((item:Post) => (
-                  <PostPreview
-                      name={item.post.name}
-                      description={item.post.description.length > 100 ?
-                          item.post.description.slice(0,99) :
-                          item.post.description
-                      }
-                      imgSrc={item.post.image}
-                  />
-              ))
+              // posts.map((item:Post) => (
+              //     <PostPreview
+              //         name={item.post.name}
+              //         description={item.post.description.length > 100 ?
+              //             item.post.description.slice(0,99) :
+              //             item.post.description
+              //         }
+              //         imgSrc={item.post.image}
+              //     />
+              // ))
           }
       </div>
     )

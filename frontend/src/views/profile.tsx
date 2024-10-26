@@ -23,7 +23,7 @@ export function Profile() {
         </p>
         <div className="divider"></div>
         <h2 className="text-3xl font-medium mb-12">Posts</h2>
-        <PostPreview />
+        {/*<PostPreview />*/}
       </div>
     </div>
   )
