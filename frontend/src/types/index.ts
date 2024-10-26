@@ -1,8 +1,8 @@
 export type Post = {
     post: {
-        name: string
         description: string
         image: string | null
     },
+    name: string,
     like: boolean
 }

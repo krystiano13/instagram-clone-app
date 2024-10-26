@@ -19,10 +19,11 @@ class PostController < ApplicationController
         end
 
         posts_with_images.each do |post|
+            user = User.find_by(id: post.values[1])
             if likes_post_ids.include?(post[:id])
-                posts_with_likes.unshift([:post => post, :like => true])
+                posts_with_likes.unshift({:post => post, :like => true, :name => user[:user_name]})
             else
-                posts_with_likes.unshift([:post => post, :like => false])
+                posts_with_likes.unshift({:post => post, :like => false, :name => user[:user_name]})
             end
         end
 
