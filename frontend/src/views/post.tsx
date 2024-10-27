@@ -1,11 +1,12 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import type { Post } from "../types";
+import type { Post, Comment } from "../types";
 
 export function Post() {
   const { id } = useParams()
 
   const [post, setPost] = useState<Post|undefined>()
+  const [comments, setComments] = useState<Comment[]>([])
   const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
@@ -25,6 +26,26 @@ export function Post() {
           }
         })
   }, [])
+
+  useEffect(() => {
+      if(!post) return
+
+      fetch(`http://127.0.0.1:3000/comments/${post.post.id}`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+      })
+          .then(res => res.json())
+          .then(data => {
+              if(data.errors) {
+                  setComments(data)
+              }
+              else {
+                  setComments([])
+              }
+          })
+  }, [post])
 
   return (
     <div className="w-calc flex flex-col items-center p-6 min-h-[100vh]">
@@ -53,38 +74,30 @@ export function Post() {
           <div className="divider divider-primary"></div>
           <h2 className="text-xl py-4 border-b border-1 bg-slate-50 font-medium">Comments</h2>
           <div className="max-h-96 overflow-y-auto">
-            <div className="flex mt-[1rem] flex-col gap-2">
-              <section className="flex items-center gap-3">
-                <div className="avatar placeholder">
-                  <div className="bg-secondary/20 text-secondary w-10 rounded-full">
-                    <span className="text-md uppercase">kz</span>
-                  </div>
-                </div>
-                <p>Krystian Zieja</p>
-              </section>
-              <p className="text-lg">
-                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor. Duis mollis, est non commodo luctus. Duis mollis, est non
-                commodo
-              </p>
-            </div>
-            <div className="divider"></div>
-            <div className="flex mt-[1rem] flex-col gap-2">
-              <section className="flex items-center gap-3">
-                <div className="avatar placeholder">
-                  <div className="bg-secondary/20 text-secondary w-10 rounded-full">
-                    <span className="text-md uppercase">kz</span>
-                  </div>
-                </div>
-                <p>Krystian Zieja</p>
-              </section>
-              <p className="text-lg">
-                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor. Duis mollis, est non commodo luctus. Duis mollis, est non
-                commodo
-              </p>
-            </div>
-            <div className="divider"></div>
+              {
+                  comments.map(item => (
+                      <>
+                          <div className="flex mt-[1rem] flex-col gap-2">
+                              <section className="flex items-center gap-3">
+                                  <div className="avatar placeholder">
+                                      <div className="bg-secondary/20 text-secondary w-10 rounded-full">
+                                          <span className="text-md uppercase">
+                                              { item.user_name.length >= 2 ? `${item.user_name[0]}${item.user_name[1]}` : item.user_name }
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <p>{ item.user_name }</p>
+                              </section>
+                              <p className="text-lg">
+                                  {
+                                      item.comment.text
+                                  }
+                              </p>
+                          </div>
+                          <div className="divider"></div>
+                      </>
+                  ))
+              }
           </div>
         </>}
       </div>

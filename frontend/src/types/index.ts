@@ -7,3 +7,12 @@ export type Post = {
     name: string,
     like: boolean
 }
+
+export type Comment = {
+   comment: {
+       user_id: number
+       post_id: number
+       text: string
+   },
+   user_name: string
+}
