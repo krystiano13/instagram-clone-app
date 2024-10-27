@@ -7,7 +7,39 @@ export function Post() {
 
   const [post, setPost] = useState<Post|undefined>()
   const [comments, setComments] = useState<Comment[]>([])
+  const [formOpened, setFormOpened] = useState<boolean>(false)
+  const [formErrors, setFormErrors] = useState<string[]>([])
   const [error, setError] = useState<boolean>(false)
+
+  function handleComment(e: React.FormEvent<HTMLFormElement>) {
+      e.preventDefault()
+      const formData = new FormData(e.target as HTMLFormElement)
+
+      setFormErrors([])
+
+      fetch("http://127.0.0.1:3000/comments", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({
+              text: formData.get("text"),
+              post_id: post?.post.id,
+              user_id: localStorage.getItem("id")
+          })
+      })
+          .then(res => res.json())
+          .then(data => {
+              if(data.errors) {
+                  setFormErrors([...data.errors.text])
+              }
+              else {
+                  setComments([{ comment: { text: formData.get("text") as string, post_id: 1, user_id: 1 }, user_name: localStorage.getItem("user_name") },...comments])
+                  setFormOpened(false)
+              }
+          })
+  }
 
   useEffect(() => {
     fetch(`http://127.0.0.1:3000/posts/${id}`, {
@@ -39,10 +71,10 @@ export function Post() {
           .then(res => res.json())
           .then(data => {
               if(data.errors) {
-                  setComments(data)
+                  setComments([])
               }
               else {
-                  setComments([])
+                  setComments([...data.comments])
               }
           })
   }, [post])
@@ -66,19 +98,35 @@ export function Post() {
           />
           <div className="flex items-center gap-2 mt-3">
             <button className="btn">Like</button>
-            <button className="btn btn-primary">Comment</button>
+            <button onClick={() => setFormOpened(prev => !prev)} className="btn btn-primary">Comment</button>
           </div>
           <p className="text-base-content/80 text-lg mt-3 text-justify">
             { post.post.description }
           </p>
           <div className="divider divider-primary"></div>
           <h2 className="text-xl py-4 border-b border-1 bg-slate-50 font-medium">Comments</h2>
-          <div className="max-h-96 overflow-y-auto">
-              {
-                  comments.map(item => (
-                      <>
-                          <div className="flex mt-[1rem] flex-col gap-2">
-                              <section className="flex items-center gap-3">
+          {
+              formOpened &&
+              <form onSubmit={(e) => handleComment(e)} className="mt-6 w-full">
+                  <div className="form-control w-full">
+                      <textarea name="text" className="textarea textarea-filled peer" placeholder="Your comment"></textarea>
+                      <span className="textarea-filled-label">Your comment</span>
+                      <span className="textarea-filled-focused"></span>
+                  </div>
+                  {
+                      formErrors.map(item => (
+                          <p className="text-red-500 text-base mt-3">{ item }</p>
+                      ))
+                  }
+                  <button className="btn btn-primary mt-3">Comment</button>
+              </form>
+          }
+            <div className="max-h-96 overflow-y-auto">
+                {
+                    comments.map(item => (
+                        <>
+                            <div className="flex mt-[1rem] flex-col gap-2">
+                            <section className="flex items-center gap-3">
                                   <div className="avatar placeholder">
                                       <div className="bg-secondary/20 text-secondary w-10 rounded-full">
                                           <span className="text-md uppercase">

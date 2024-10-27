@@ -6,7 +6,7 @@ class CommentController < ApplicationController
 
         comments.each do |comment|
             user = User.find_by(id: comment[:user_id])
-            comments_with_users.unshift([comment: comment, user_name: user[:user_name]])
+            comments_with_users.unshift({comment: comment, user_name: user[:user_name]})
         end
 
         render json: {
