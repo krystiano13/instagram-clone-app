@@ -16,3 +16,8 @@ export type Comment = {
    },
    user_name: string
 }
+
+export type User = {
+    id: number
+    user_name: string
+}
