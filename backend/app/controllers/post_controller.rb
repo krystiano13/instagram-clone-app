@@ -40,7 +40,7 @@ class PostController < ApplicationController
 
             like_value = Like.where(post_id: params[:id])
 
-            user = User.find_by(id: post.values[1])
+            user = User.find_by(id: post[:user_id])
 
             if like_value.present?
                 like = true

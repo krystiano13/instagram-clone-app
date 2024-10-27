@@ -26,7 +26,7 @@ function App() {
               <Route path="/explore" element={<Explore />} />
               <Route path="/search" element={<Search />} />
               <Route path="/create" element={<Create />} />
-              <Route path="/post" element={<Post />} />
+              <Route path="/post/:id" element={<Post />} />
               <Route path="/profile" element={<Profile />} />
           </Routes>
         </Layout>

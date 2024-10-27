@@ -16,7 +16,7 @@ export function PostPreview({ name, description, imgSrc }: Props) {
         <p>{ name }</p>
       </section>
       <img
-        className="mt-3"
+        className="mt-3 w-full"
         src={imgSrc}
       />
       <div className="flex items-center gap-2 mt-3">
