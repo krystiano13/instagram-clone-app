@@ -11,6 +11,11 @@ class UserController < ApplicationController
         render json: @user, status: 200
     end
 
+    def search
+        searched_users = User.where("user_name like ?", "%#{params[:user_name]}%")
+        render json: searched_users, status: 200
+    end
+
     def create
         @user = User.new(user_params)
 
