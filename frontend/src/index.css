@@ -14,6 +14,10 @@ body {
   }
 }
 
+#masonry img {
+  width: 300px;
+}
+
 img {
   transition: 250ms;
   cursor: pointer;

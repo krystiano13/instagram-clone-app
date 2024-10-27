@@ -1,7 +1,31 @@
 import Macy from "macy"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router";
+import type { Post } from "../types";
 
 export function Explore() {
+    const [posts, setPosts] = useState<Post[]>([])
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        fetch(`http://127.0.0.1:3000/posts/`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => {
+                if(res.status === 401) {
+                    navigate("/login")
+                }
+
+                return res.json()
+            })
+            .then((data: { posts: Post[] }) => {
+                setPosts([...data.posts as Post[]])
+            })
+    }, []);
+
   useEffect(() => {
     const macy = new Macy({
       container: "#masonry",
@@ -27,22 +51,15 @@ export function Explore() {
     })
 
     observer.observe(document.querySelector("#masonry") as HTMLDivElement)
-  }, [])
+  }, [posts])
 
   return (
     <div id="masonry" className="w-full bg-slate-50">
-      <img src="https://c4.wallpaperflare.com/wallpaper/304/798/563/samurai-ground-hd-wallpaper-preview.jpg" />
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHJzXf3F5jDoYDNmSH8yo1BbyNYDw4gwle3Q&s" />
-      <img src="https://i.pinimg.com/736x/68/8d/d3/688dd325dbbdc238f4b70caffe77a5af.jpg" />
-      <img src="https://c4.wallpaperflare.com/wallpaper/304/798/563/samurai-ground-hd-wallpaper-preview.jpg" />
-      <img src="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600" />
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHJzXf3F5jDoYDNmSH8yo1BbyNYDw4gwle3Q&s" />
-      <img src="https://i.pinimg.com/736x/68/8d/d3/688dd325dbbdc238f4b70caffe77a5af.jpg" />
-      <img src="https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=600" />
-      <img src="https://c4.wallpaperflare.com/wallpaper/304/798/563/samurai-ground-hd-wallpaper-preview.jpg" />
-      <img src="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=600" />
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHJzXf3F5jDoYDNmSH8yo1BbyNYDw4gwle3Q&s" />
-      <img src="https://i.pinimg.com/736x/68/8d/d3/688dd325dbbdc238f4b70caffe77a5af.jpg" />
+        {
+            posts && posts.map(item => (
+                <img src={item.post.image as string} onClick={() => navigate(`/post/${item.post.id}`)}/>
+            ))
+        }
     </div>
   )
 }
