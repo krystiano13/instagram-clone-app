@@ -1,10 +1,14 @@
+import { useNavigate } from "react-router";
+
 interface Props {
     name: string
     description: string
     imgSrc: string | null
+    id?: number
 }
 
-export function PostPreview({ name, description, imgSrc }: Props) {
+export function PostPreview({ name, description, imgSrc, id }: Props) {
+  const navigate = useNavigate()
   return (
     <div className="sm:max-w-lg w-[90vw] sm:w-[32rem]">
       <section className="flex items-center gap-3">
@@ -16,6 +20,7 @@ export function PostPreview({ name, description, imgSrc }: Props) {
         <p>{ name }</p>
       </section>
       <img
+        onClick={() => navigate(`/post/${id}`)}
         className="mt-3 w-full"
         src={imgSrc}
       />
