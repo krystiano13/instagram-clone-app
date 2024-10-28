@@ -29,10 +29,16 @@ class UserController < ApplicationController
     end
 
     def update
-        unless @user.update(user_params)
+        user = User.find_by(id: params[:id])
+
+        if user.update_column(:description, params[:description])
             render json: {
-                errors: @user.errors.full_messages
-            }, status: 503
+              message: "Updated"
+            }, status: 200
+        else
+            render json: {
+              errors: user.errors
+            }, status: 422
         end
     end
 
@@ -43,7 +49,7 @@ class UserController < ApplicationController
     private
 
     def user_params
-        params.permit(:user_name, :email, :password)
+        params.permit(:user_name, :email, :password, :description, :id)
     end
 
     def find_user
