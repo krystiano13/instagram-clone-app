@@ -8,6 +8,12 @@ export type Post = {
     like: boolean
 }
 
+export type ProfilePost = {
+    description: string
+    image: string | null
+    id?: number
+}
+
 export type Profile = {
     id: number
     user_name: string

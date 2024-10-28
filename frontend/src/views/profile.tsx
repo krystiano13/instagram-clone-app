@@ -1,4 +1,4 @@
-import type { Profile, Post } from "../types";
+import type { Profile, ProfilePost } from "../types";
 import Macy from "macy";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
@@ -13,7 +13,7 @@ export function Profile() {
   const [profile, setProfile] = useState<Profile|undefined>()
   const [description, setDescription] = useState<string|null>(null)
   const [updateDescription, setUpdateDescription] = useState<boolean>(false)
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<ProfilePost[]>([])
 
   function handleUpdateDescription() {
       fetch(`http://127.0.0.1:3000/user/${localStorage.getItem("id")}`, {
@@ -167,7 +167,7 @@ export function Profile() {
                 <div id="profile-images">
                     {
                         posts.map(item => (
-                            <img onClick={() => navigate(`/post/${item.id}`)} src={item.image} />
+                            <img onClick={() => navigate(`/post/${item.id}`)} src={item.image ?? ""} />
                         ))
                     }
                 </div>
