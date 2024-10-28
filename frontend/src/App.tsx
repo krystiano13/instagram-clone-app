@@ -27,7 +27,7 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/create" element={<Create />} />
               <Route path="/post/:id" element={<Post />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/:id" element={<Profile />} />
           </Routes>
         </Layout>
         </AuthContextProvider>

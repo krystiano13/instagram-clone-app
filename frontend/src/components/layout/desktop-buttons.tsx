@@ -43,7 +43,7 @@ export function DesktopButtons() {
           </NavLink>
       </div>
         <div className="drawer-footer flex-col">
-            <NavLink className="w-full" to="/profile">
+            <NavLink className="w-full" to={`/profile/${localStorage.getItem("id")}`}>
                 <button className="w-full flex btn btn-soft btn-secondary">
                     <span className="w-32 sm:h-auto sm:inline">{
                         localStorage.getItem("user_name") ? localStorage.getItem("user_name") : "Profile"
