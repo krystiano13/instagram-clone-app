@@ -1,6 +1,7 @@
 import { PostPreview } from "../components/shared/post-preview"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 
 import type { Post } from '../types/index'
 
@@ -42,6 +43,19 @@ export function Home() {
                       imgSrc={item.post.image}
                   />
               ))
+          }
+          {
+              posts.length < 1 &&
+              <section className="w-full h-[100vh] max-w-sm flex flex-col justify-center items-center gap-5">
+                  <h1 className="text-xl font-semibold">It looks like you have nothing to watch</h1>
+                  <h2 className="text-lg font-regular">
+                      Check out {" "}
+                      <NavLink className="text-primary" to="/explore">
+                          Explore page
+                      </NavLink>
+                  </h2>
+                  <div className="divider"></div>
+              </section>
           }
       </div>
     )
