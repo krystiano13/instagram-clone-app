@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get "posts", to: "post#index"
   get "posts/:id", to: "post#show"
   get "posts/followers/:user_id", to: "post#index_follows_only"
+  get "posts/user/:user_id", to: "post#index_by_user"
   post "posts", to: "post#create"
   patch "posts/:id", to: "post#update"
   delete "posts/:id", to: "post#destroy"

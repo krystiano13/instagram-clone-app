@@ -1,15 +1,19 @@
-import { PostPreview } from "../components/shared/post-preview"
-import type { Profile } from "../types";
+import type { Profile, Post } from "../types";
+import Macy from "macy";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 
 export function Profile() {
   const { id } = useParams()
 
+  const navigate = useNavigate()
+
   const [error, setError] = useState<boolean>(false)
   const [profile, setProfile] = useState<Profile|undefined>()
   const [description, setDescription] = useState<string|null>(null)
   const [updateDescription, setUpdateDescription] = useState<boolean>(false)
+  const [posts, setPosts] = useState<Post[]>([])
 
   function handleUpdateDescription() {
       fetch(`http://127.0.0.1:3000/user/${localStorage.getItem("id")}`, {
@@ -55,9 +59,54 @@ export function Profile() {
         })
   }, [id, updateDescription])
 
+  useEffect(() => {
+      fetch(`http://127.0.0.1:3000/posts/user/${id}`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+      })
+          .then(res => res.json())
+          .then(data => {
+              if(data.errors) {
+                  setPosts([])
+              }
+              else {
+                  setPosts([...data.posts])
+              }
+          })
+  }, [id])
+
+    useEffect(() => {
+        const macy = new Macy({
+            container: "#profile-images",
+            colums: 2,
+            breakAt: {
+                320: {
+                    columns: 1,
+                },
+                640: {
+                    columns: 2,
+                },
+                900: {
+                    columns: 3,
+                },
+                1200: {
+                    columns: 3,
+                },
+            },
+        })
+
+        const observer = new ResizeObserver(() => {
+            macy.reInit()
+        })
+
+        observer.observe(document.querySelector("#profile-images") as HTMLDivElement)
+    }, [posts])
+
   return (
     <div className="w-calc flex flex-col items-center p-6 min-h-[100vh]">
-      <div className="sm:max-w-lg max-w-[90vw] w-[90vw]">
+      <div className="sm:max-w-lg md:max-w-xl lg:max-w-2xl max-w-[90vw] w-[90vw]">
         {
           !error &&
             <>
@@ -115,7 +164,13 @@ export function Profile() {
                 }
                 <div className="divider"></div>
                 <h2 className="text-3xl font-medium mb-12">Posts</h2>
-                {/*<PostPreview />*/}
+                <div id="profile-images">
+                    {
+                        posts.map(item => (
+                            <img onClick={() => navigate(`/post/${item.id}`)} src={item.image} />
+                        ))
+                    }
+                </div>
             </>
         }
           {

@@ -32,6 +32,22 @@ class PostController < ApplicationController
         }, status: 200
     end
 
+    def index_by_user
+        posts = Post.where(user_id: params[:user_id]).order(created_at: :desc)
+
+        posts_with_images = posts.map do |post|
+            if post.image.attached?
+                post.as_json.merge(image: url_for(post.image))
+            else
+                post.as_json.merge(image: nil)
+            end
+        end
+
+        render json: {
+          posts: posts_with_images
+        }, status: :ok
+    end
+
     def show
         begin
             post = Post.find(params[:id])
