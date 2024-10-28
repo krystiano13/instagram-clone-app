@@ -1,6 +1,17 @@
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function DesktopButtons() {
+  const navigate = useNavigate()
+
+  function logOut() {
+      localStorage.removeItem("id")
+      localStorage.removeItem("token")
+      localStorage.removeItem("user_name")
+
+      navigate("/login")
+  }
+
   return (
     <section className="card w-[100vw] sm:w-[20rem] sm:h-[100vh] p-4 pt-12 sm:p-0 rounded-none">
       <div className="drawer-header hidden sm:block">
@@ -31,12 +42,17 @@ export function DesktopButtons() {
               </button>
           </NavLink>
       </div>
-        <div className="drawer-footer">
+        <div className="drawer-footer flex-col">
             <NavLink className="w-full" to="/profile">
                 <button className="w-full flex btn btn-soft btn-secondary">
-                    <span className="w-32 sm:h-auto sm:inline">Profile</span>
+                    <span className="w-32 sm:h-auto sm:inline">{
+                        localStorage.getItem("user_name") ? localStorage.getItem("user_name") : "Profile"
+                    }</span>
                 </button>
             </NavLink>
+            <button onClick={logOut} className="w-full flex btn btn-soft btn-error">
+                <span className="w-32 sm:h-auto sm:inline">Logout</span>
+            </button>
         </div>
     </section>
   )
