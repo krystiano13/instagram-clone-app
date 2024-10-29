@@ -14,6 +14,7 @@ export function Profile() {
   const [description, setDescription] = useState<string|null>(null)
   const [updateDescription, setUpdateDescription] = useState<boolean>(false)
   const [posts, setPosts] = useState<ProfilePost[]>([])
+  const [follow, setFollow] = useState<boolean>(false)
 
   function handleUpdateDescription() {
       fetch(`http://127.0.0.1:3000/user/${localStorage.getItem("id")}`, {
@@ -27,9 +28,49 @@ export function Profile() {
           })
       })
           .then(res => res.json())
-          .then((data) => {
-              console.log(data)
+          .then(() => {
               setUpdateDescription(false)
+          })
+  }
+
+  function handleFollow() {
+    if(follow) return
+
+    fetch(`http://127.0.0.1:3000/followers`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({
+            user_id: localStorage.getItem("id"),
+            follower_id: id
+        })
+    })
+        .then(res => {
+            if(res.ok) {
+                setFollow(true)
+            }
+
+            return res.json()
+        })
+  }
+
+  function handleUnfollow() {
+      if(!follow) return
+      fetch(`http://127.0.0.1:3000/followers/${id}/${localStorage.getItem("id")}`, {
+          method: "DELETE",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+      })
+          .then(res => {
+              if(res.ok) {
+                  setFollow(false)
+              }
+
+              return res.json()
           })
   }
 
@@ -104,6 +145,26 @@ export function Profile() {
         observer.observe(document.querySelector("#profile-images") as HTMLDivElement)
     }, [posts])
 
+    useEffect(() => {
+      if(id === localStorage.getItem("id")) return
+
+      fetch(`http://127.0.0.1:3000/followers/${id}/${localStorage.getItem("id")}`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+      })
+          .then(res => res.json())
+          .then(data => {
+              if(data.follow.length > 0) {
+                  setFollow(true)
+              }
+              else {
+                  setFollow(false)
+              }
+          })
+    }, [id])
+
   return (
     <div className="w-calc flex flex-col items-center p-6 min-h-[100vh]">
       <div className="sm:max-w-lg md:max-w-xl lg:max-w-2xl max-w-[90vw] w-[90vw]">
@@ -120,10 +181,17 @@ export function Profile() {
               </section>
               {
                   profile && profile.id !== Number(localStorage.getItem("id")) &&
-                  <button className="mt-4 btn btn-primary">+ Follow</button>
+                  <>
+                      {
+                          !follow && <button onClick={handleFollow} className="mt-4 btn btn-primary">+ Follow</button>
+                      }
+                      {
+                          follow && <button onClick={handleUnfollow} className="mt-4 btn btn-ghost">- Unfollow</button>
+                      }
+                  </>
               }
-                {
-                    !updateDescription &&
+              {
+              !updateDescription &&
                     <>
                         <p className="mt-4">
                             {profile && profile.description}
