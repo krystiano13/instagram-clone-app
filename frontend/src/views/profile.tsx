@@ -43,8 +43,8 @@ export function Profile() {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         },
         body: JSON.stringify({
-            user_id: localStorage.getItem("id"),
-            follower_id: id
+            user_id: id,
+            follower_id: localStorage.getItem("id")
         })
     })
         .then(res => {

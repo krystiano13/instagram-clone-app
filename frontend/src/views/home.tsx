@@ -25,6 +25,7 @@ export function Home() {
                 return res.json()
             })
             .then((data: { posts: Post[] }) => {
+                console.log(data)
                 setPosts([...data.posts as Post[]])
             })
     }, []);
@@ -32,7 +33,7 @@ export function Home() {
     return (
       <div className="w-calc min-h-[100vh] flex flex-col items-center p-6 gap-12 bg-slate-50">
           {
-              posts.map((item:Post) => (
+              posts && posts.map((item:Post) => (
                   <PostPreview
                       id={item.post.id}
                       name={item.name}
@@ -45,7 +46,7 @@ export function Home() {
               ))
           }
           {
-              posts.length < 1 &&
+              posts && posts.length < 1 &&
               <section className="w-full h-[100vh] max-w-sm flex flex-col justify-center items-center gap-5">
                   <h1 className="text-xl font-semibold">It looks like you have nothing to watch</h1>
                   <h2 className="text-lg font-regular">
