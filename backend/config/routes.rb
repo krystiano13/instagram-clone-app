@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   delete "posts/:id", to: "post#destroy"
 
   post "likes", to: "like#create"
-  delete "likes/:id", to: "like#destroy"
+  delete "likes/:user_id/:post_id", to: "like#destroy"
 
   get "comments/:post_id", to: "comment#index"
   post "comments", to: "comment#create"

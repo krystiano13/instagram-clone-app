@@ -15,6 +15,7 @@ export function PostPreview({ name, description, imgSrc, id, like }: Props) {
   const [liked, setLiked] = useState<boolean>(like)
 
   function handleLike() {
+    if (liked) return
     fetch(`http://127.0.0.1:3000/likes`, {
         method: "POST",
         headers: {
@@ -36,7 +37,22 @@ export function PostPreview({ name, description, imgSrc, id, like }: Props) {
   }
 
   function handleUnlike() {
+    if(!liked) return
 
+    fetch(`http://127.0.0.1:3000/likes/${localStorage.getItem("id")}/${id}`,{
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
+    })
+        .then(res => {
+            if(res.ok) {
+                setLiked(false)
+            }
+
+            return res.json()
+        })
   }
 
   return (
