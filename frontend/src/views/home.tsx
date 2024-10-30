@@ -36,6 +36,7 @@ export function Home() {
               posts && posts.map((item:Post) => (
                   <PostPreview
                       id={item.post.id}
+                      like={item.like}
                       name={item.name}
                       description={item.post.description.length > 100 ?
                           item.post.description.slice(0,99) :

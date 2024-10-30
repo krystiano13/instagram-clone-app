@@ -91,13 +91,6 @@ class PostController < ApplicationController
         posts = Post.where(user_id: follower_ids)
         posts_with_likes = []
 
-        likes = Like.where(user_id: params[:user_id])
-        likes_post_ids = []
-
-        likes.each do |like|
-            likes_post_ids.push(like[:post_id])
-        end
-
         posts_with_images = posts.map do |post|
             if post.image.attached?
                 post.as_json.merge(image: url_for(post.image))
@@ -108,8 +101,9 @@ class PostController < ApplicationController
 
         posts_with_images.each do |post|
             user = User.find_by(id: post.values[1])
+            like = Like.where(user_id: params[:user_id]).and(Like.where(post_id: post.values[0]))
 
-            if likes_post_ids.include?(post[:id])
+            if like.count > 0
                 posts_with_likes.unshift({post: post, like: true, name: user[:user_name]})
             else
                 posts_with_likes.unshift({post: post, like: false, name: user[:user_name]})
