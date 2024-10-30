@@ -88,7 +88,7 @@ export function PostPreview({ name, description, imgSrc, id, like }: Props) {
           {
               liked && <button onClick={handleUnlike} className="btn btn-success">Unlike</button>
           }
-          <button className="btn btn-primary">Comment</button>
+          <button onClick={() => navigate(`/post/${id}`)} className="btn btn-primary">Comment</button>
       </div>
       <p className="text-base-content/80 text-lg mt-3 text-justify">
           { description }
