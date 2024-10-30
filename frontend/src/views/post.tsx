@@ -9,10 +9,59 @@ export function Post() {
   const navigate = useNavigate()
 
   const [post, setPost] = useState<Post|undefined>()
+  const [liked, setLiked] = useState<boolean>(post?.like ?? false)
   const [comments, setComments] = useState<Comment[]>([])
   const [formOpened, setFormOpened] = useState<boolean>(false)
   const [formErrors, setFormErrors] = useState<string[]>([])
   const [error, setError] = useState<boolean>(false)
+
+    function handleLike() {
+        fetch(`http://127.0.0.1:3000/likes`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user_id: localStorage.getItem("id"),
+                post_id: id
+            })
+        })
+            .then(res => {
+                if(res.status === 401) {
+                    logOut()
+                    navigate("/login")
+                }
+
+                if(res.ok) {
+                    setLiked(true)
+                }
+
+                return res.json()
+            })
+    }
+
+    function handleUnlike() {
+        fetch(`http://127.0.0.1:3000/likes/${localStorage.getItem("id")}/${id}`,{
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+        })
+            .then(res => {
+                if(res.status === 401) {
+                    logOut()
+                    navigate("/login")
+                }
+
+                if(res.ok) {
+                   setLiked(false)
+                }
+
+                return res.json()
+            })
+    }
 
   function handleComment(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
@@ -121,8 +170,13 @@ export function Post() {
               src={post?.post.image}
           />
           <div className="flex items-center gap-2 mt-3">
-            <button className="btn">Like</button>
-            <button onClick={() => setFormOpened(prev => !prev)} className="btn btn-primary">Comment</button>
+              {
+                  !liked && <button onClick={handleLike} className="btn">Like</button>
+              }
+              {
+                  liked && <button onClick={handleUnlike} className="btn btn-success">Unlike</button>
+              }
+              <button onClick={() => setFormOpened(prev => !prev)} className="btn btn-primary">Comment</button>
           </div>
           <p className="text-base-content/80 text-lg mt-3 text-justify">
             { post.post.description }
