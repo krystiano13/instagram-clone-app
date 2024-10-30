@@ -2,6 +2,7 @@ import Macy from "macy"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router";
 import type { Post } from "../types";
+import { logOut } from "../utils/auth.ts";
 
 export function Explore() {
     const [posts, setPosts] = useState<Post[]>([])
@@ -16,6 +17,7 @@ export function Explore() {
         })
             .then(res => {
                 if(res.status === 401) {
+                    logOut()
                     navigate("/login")
                 }
 

@@ -1,9 +1,12 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import type { Post, Comment } from "../types";
+import { logOut } from "../utils/auth.ts";
 
 export function Post() {
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [post, setPost] = useState<Post|undefined>()
   const [comments, setComments] = useState<Comment[]>([])
@@ -29,7 +32,14 @@ export function Post() {
               user_id: localStorage.getItem("id")
           })
       })
-          .then(res => res.json())
+          .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
+              return res.json()
+          })
           .then(data => {
               if(data.errors) {
                   setFormErrors([...data.errors.text])
@@ -48,7 +58,14 @@ export function Post() {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-        .then(res => res.json())
+        .then(res => {
+            if(res.status === 401) {
+                logOut()
+                navigate("/login")
+            }
+
+            return res.json()
+        })
         .then(data => {
           if(data.errors) {
             setError(true)
@@ -68,7 +85,14 @@ export function Post() {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
       })
-          .then(res => res.json())
+          .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
+              return res.json()
+          })
           .then(data => {
               if(data.errors) {
                   setComments([])

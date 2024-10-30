@@ -1,6 +1,7 @@
 import { FormWrapper } from "../components/forms/form"
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import {logOut} from "../utils/auth.ts";
 
 export function Create() {
   const [errors, setErrors] = useState<string[]>([])
@@ -22,8 +23,10 @@ export function Create() {
     })
         .then(res => {
           if(res.status === 401) {
+            logOut()
             navigate("/login")
           }
+
           return res.json()
         })
         .then(data => {

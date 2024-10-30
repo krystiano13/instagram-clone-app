@@ -2,6 +2,7 @@ import { PostPreview } from "../components/shared/post-preview"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
+import { logOut } from "../utils/auth";
 
 import type { Post } from '../types/index'
 
@@ -19,13 +20,13 @@ export function Home() {
         })
             .then(res => {
                 if(res.status === 401) {
+                    logOut()
                     navigate("/login")
                 }
 
                 return res.json()
             })
             .then((data: { posts: Post[] }) => {
-                console.log(data)
                 setPosts([...data.posts as Post[]])
             })
     }, []);

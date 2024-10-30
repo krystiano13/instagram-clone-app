@@ -2,6 +2,7 @@ import { SearchInput } from "../components/forms/search-input"
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import type { User } from "../types";
+import {logOut} from "../utils/auth.ts";
 
 export function Search() {
   const [search, setSearch] = useState<string>("")
@@ -21,7 +22,14 @@ export function Search() {
            Authorization: `Bearer ${localStorage.getItem("token")}`
          }
        })
-           .then(res => res.json())
+           .then(res => {
+               if(res.status === 401) {
+                   logOut()
+                   navigate("/login")
+               }
+
+               return res.json()
+           })
            .then(data => {
              if(data.errors) {
                setUsers([])

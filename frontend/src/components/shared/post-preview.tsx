@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import {logOut} from "../../utils/auth.ts";
 
 interface Props {
     name: string
@@ -28,6 +29,11 @@ export function PostPreview({ name, description, imgSrc, id, like }: Props) {
         })
     })
         .then(res => {
+            if(res.status === 401) {
+                logOut()
+                navigate("/login")
+            }
+
             if(res.ok) {
                 setLiked(true)
             }
@@ -47,6 +53,11 @@ export function PostPreview({ name, description, imgSrc, id, like }: Props) {
         },
     })
         .then(res => {
+            if(res.status === 401) {
+                logOut()
+                navigate("/login")
+            }
+
             if(res.ok) {
                 setLiked(false)
             }

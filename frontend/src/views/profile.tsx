@@ -3,6 +3,7 @@ import Macy from "macy";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import {logOut} from "../utils/auth.ts";
 
 export function Profile() {
   const { id } = useParams()
@@ -27,7 +28,14 @@ export function Profile() {
               description: description
           })
       })
-          .then(res => res.json())
+          .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
+              return res.json()
+          })
           .then(() => {
               setUpdateDescription(false)
           })
@@ -48,6 +56,11 @@ export function Profile() {
         })
     })
         .then(res => {
+            if(res.status === 401) {
+                logOut()
+                navigate("/login")
+            }
+
             if(res.ok) {
                 setFollow(true)
             }
@@ -66,6 +79,11 @@ export function Profile() {
           }
       })
           .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
               if(res.ok) {
                   setFollow(false)
               }
@@ -87,6 +105,12 @@ export function Profile() {
           if(res.status === 404) {
             setError(true)
           }
+
+          if(res.status === 401) {
+              logOut()
+              navigate("/login")
+          }
+
           return res.json()
         })
         .then(data => {
@@ -107,7 +131,14 @@ export function Profile() {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
       })
-          .then(res => res.json())
+          .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
+              return res.json()
+          })
           .then(data => {
               if(data.errors) {
                   setPosts([])
@@ -154,7 +185,14 @@ export function Profile() {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
       })
-          .then(res => res.json())
+          .then(res => {
+              if(res.status === 401) {
+                  logOut()
+                  navigate("/login")
+              }
+
+              return res.json()
+          })
           .then(data => {
               if(data.follow.length > 0) {
                   setFollow(true)
