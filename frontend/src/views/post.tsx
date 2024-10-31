@@ -9,7 +9,7 @@ export function Post() {
   const navigate = useNavigate()
 
   const [post, setPost] = useState<Post|undefined>()
-  const [liked, setLiked] = useState<boolean>(post?.like ?? false)
+  const [liked, setLiked] = useState<boolean>(false)
   const [comments, setComments] = useState<Comment[]>([])
   const [formOpened, setFormOpened] = useState<boolean>(false)
   const [formErrors, setFormErrors] = useState<string[]>([])
@@ -151,6 +151,15 @@ export function Post() {
               }
           })
   }, [post])
+
+    useEffect(() => {
+        if(post?.like) {
+            setLiked(true)
+        }
+        else {
+            setLiked(false)
+        }
+    }, [post]);
 
   return (
     <div className="w-calc flex flex-col items-center p-6 min-h-[100vh]">

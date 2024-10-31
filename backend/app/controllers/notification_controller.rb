@@ -9,7 +9,7 @@ class NotificationController < ApplicationController
   def destroy
     notification = Notification.find(params[:id])
 
-    if notification
+    if notification.present?
       notification.destroy
     end
   end
