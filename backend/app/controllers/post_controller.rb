@@ -1,7 +1,6 @@
 class PostController < ApplicationController
     def index
         @posts = Post.order(created_at: :desc)
-        posts_with_likes = []
 
         likes = Like.where(user_id: params[:user_id])
         likes_post_ids = []
@@ -10,41 +9,21 @@ class PostController < ApplicationController
             likes_post_ids.push(like[:post_id])
         end
 
-        posts_with_images = @posts.map do |post|
-            if post.image.attached?
-                post.as_json.merge(image: url_for(post.image))
-            else
-                post.as_json.merge(image: nil)
-            end
-        end
-
-        posts_with_images.each do |post|
-            user = User.find_by(id: post.values[1])
-            if likes_post_ids.include?(post[:id])
-                posts_with_likes.unshift({:post => post, :like => true, :name => user[:user_name]})
-            else
-                posts_with_likes.unshift({:post => post, :like => false, :name => user[:user_name]})
-            end
-        end
+        map_images
+        map_likes
 
         render json: {
-            :posts => posts_with_likes
+            posts: @posts_with_likes
         }, status: 200
     end
 
     def index_by_user
-        posts = Post.where(user_id: params[:user_id]).order(created_at: :desc)
+        @posts = Post.where(user_id: params[:user_id]).order(created_at: :desc)
 
-        posts_with_images = posts.map do |post|
-            if post.image.attached?
-                post.as_json.merge(image: url_for(post.image))
-            else
-                post.as_json.merge(image: nil)
-            end
-        end
+        map_images
 
         render json: {
-          posts: posts_with_images
+          posts: @posts_with_images
         }, status: :ok
     end
 
@@ -69,13 +48,13 @@ class PostController < ApplicationController
             end
 
             render json: {
-                :post => post_with_image,
-                :like => like,
-                :name => user[:user_name]
+                post: post_with_image,
+                like: like,
+                name: user[:user_name]
             }, status: 200
         rescue
             render json: {
-                :errors => ["Not found"]
+                errors: ["Not found"]
             }, status: 404
         end
     end
@@ -88,32 +67,15 @@ class PostController < ApplicationController
             follower_ids.push(follower[:user_id])
         end
 
-        posts = Post.where(user_id: follower_ids)
-        posts_with_likes = []
+        @posts = Post.where(user_id: follower_ids)
 
-        posts_with_images = posts.map do |post|
-            if post.image.attached?
-                post.as_json.merge(image: url_for(post.image))
-            else
-                post.as_json.merge(image: nil)
-            end
-        end
-
-        posts_with_images.each do |post|
-            user = User.find_by(id: post.values[1])
-            like = Like.where(user_id: params[:user_id]).and(Like.where(post_id: post.values[0]))
-
-            if like.count > 0
-                posts_with_likes.unshift({post: post, like: true, name: user[:user_name]})
-            else
-                posts_with_likes.unshift({post: post, like: false, name: user[:user_name]})
-            end
-        end
+        map_images
+        map_likes
 
         render json: {
-            :posts => posts_with_likes,
-            :followers => followers,
-            :user_id => params[:user_id],
+            posts: @posts_with_likes,
+            followers: followers,
+            user_id: params[:user_id],
         }, status: 200
     end
 
@@ -122,11 +84,11 @@ class PostController < ApplicationController
 
         if post.save
             render json: {
-                :post => post
+                post: post
             }, status: 200
         else
             render json: {
-                :errors => post.errors
+                errors: post.errors
             }, status: 422
         end
     end
@@ -136,11 +98,11 @@ class PostController < ApplicationController
 
         if post.update(post_params)
             render json: {
-                :post => post
+                post: post
             }
         else
             render json: {
-                :errors => post.errors
+                errors: post.errors
             }, status: 422
         end
     end
@@ -153,5 +115,32 @@ class PostController < ApplicationController
     private
     def post_params
         params.permit(:image, :description, :user_id)
+    end
+
+    private
+    def map_images
+        @posts_with_images = @posts.map do |post|
+            if post.image.attached?
+                post.as_json.merge(image: url_for(post.image))
+            else
+                post.as_json.merge(image: nil)
+            end
+        end
+    end
+
+    private
+    def map_likes
+        @posts_with_likes = []
+
+        @posts_with_images.each do |post|
+            user = User.find_by(id: post.values[1])
+            like = Like.where(user_id: params[:user_id]).and(Like.where(post_id: post.values[0]))
+
+            if like.count > 0
+                @posts_with_likes.unshift({post: post, like: true, name: user[:user_name]})
+            else
+                @posts_with_likes.unshift({post: post, like: false, name: user[:user_name]})
+            end
+        end
     end
 end
