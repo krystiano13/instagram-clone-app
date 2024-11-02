@@ -17,7 +17,14 @@ class CommentController < ApplicationController
     def create
         comment = Comment.new(comment_params)
 
+        post = Post.find_by(id: params[:post_id])
+
         if comment.save
+            if post.present?
+                notification = Notification.new(user_id: post[:user_id], sender_id: params[:user_id], content: "commented your post")
+                notification.save
+            end
+
             render json: {
                 comment: comment
             }, status: 200
