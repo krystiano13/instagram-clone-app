@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   delete "likes/:user_id/:post_id", to: "like#destroy"
 
   get "notifications/:user_id", to: "notification#index"
+  get "notifications/count/:user_id", to: "notification#index_count"
   delete "notifications/:id", to: "notification#destroy"
 
   get "comments/:post_id", to: "comment#index"

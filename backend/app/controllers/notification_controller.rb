@@ -6,6 +6,13 @@ class NotificationController < ApplicationController
     }, status: :ok
   end
 
+  def index_count
+    notifications_count = Notification.where(user_id: params[:user_id]).count
+    render json: {
+      count: notifications_count
+    }, status: :ok
+  end
+
   def destroy
     notification = Notification.find(params[:id])
 
