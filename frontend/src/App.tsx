@@ -10,6 +10,10 @@ import { Search } from "./views/search"
 import { Create } from "./views/create"
 import { Post } from "./views/post"
 import { Profile } from "./views/profile"
+import { Notifications } from "./views/notifications.tsx";
+
+//components
+import { Spinner } from "./components/Spinner.tsx";
 
 //contexts
 import { AuthContextProvider } from "./contexts/auth-context-provider.tsx";
@@ -28,6 +32,7 @@ function App() {
               <Route path="/create" element={<Create />} />
               <Route path="/post/:id" element={<Post />} />
               <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/notifications/:user_id" element={<Notifications />} />
           </Routes>
         </Layout>
         </AuthContextProvider>
