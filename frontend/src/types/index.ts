@@ -42,3 +42,9 @@ export type User = {
     id: number
     user_name: string
 }
+
+export type Notification = {
+    user_id: number
+    sender_id: number
+    content: string
+}
