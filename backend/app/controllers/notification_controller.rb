@@ -7,6 +7,7 @@ class NotificationController < ApplicationController
       user = User.find_by(id: notification[:sender_id])
       notifications_with_username.unshift(
         {
+          id: notification[:id],
           user_id: notification[:user_id],
           sender_id: notification[:sender_id],
           content: "#{user[:user_name]} #{notification[:content]}"

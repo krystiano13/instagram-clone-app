@@ -1,11 +1,10 @@
-import { useParams, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { logOut } from "../utils/auth.ts";
 import { Notification } from "../components/notification.tsx";
 import { Notification as NotificationType } from "../types";
 
 export default function Notifications() {
-    const { id } = useParams()
     const navigate = useNavigate()
 
     const [notifications, setNotifications] = useState<NotificationType[]>([])
@@ -30,7 +29,7 @@ export default function Notifications() {
                   setNotifications([...data.notifications])
               }
           })
-    }, [id]);
+    }, []);
 
     return (
         <div className="w-full sm:flex sm:flex-col sm:items-center min-h-[100vh] bg-slate-50">
@@ -39,7 +38,11 @@ export default function Notifications() {
             >
                 {
                     notifications.map(item => (
-                        <Notification content={item.content} />
+                        <Notification
+                            key={item.id}
+                            notificationId={item.id}
+                            content={item.content}
+                        />
                     ))
                 }
             </section>

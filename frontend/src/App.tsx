@@ -35,7 +35,7 @@ function App() {
                   <Route path="/create" element={<Create />} />
                   <Route path="/post/:id" element={<Post />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/notifications/:user_id" element={<Notifications />} />
+                  <Route path="/notifications" element={<Notifications />} />
               </Routes>
           </Suspense>
         </Layout>
