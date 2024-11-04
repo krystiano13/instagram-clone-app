@@ -3,7 +3,7 @@ import { FormWrapper } from "../components/forms/form"
 import { useNavigate } from "react-router";
 import { useState } from "react"
 
-export function Register() {
+export default function Register() {
   const [errors, setErrors] = useState<string[]>([])
   const [success, setSuccess] = useState<boolean>(false)
   const navigate = useNavigate()

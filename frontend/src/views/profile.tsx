@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import {logOut} from "../utils/auth.ts";
 
-export function Profile() {
+export default function Profile() {
   const { id } = useParams()
 
   const navigate = useNavigate()

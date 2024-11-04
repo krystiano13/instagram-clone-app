@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import type { Post, Comment } from "../types";
 import { logOut } from "../utils/auth.ts";
 
-export function Post() {
+export default function Post() {
   const { id } = useParams()
   const navigate = useNavigate()
 

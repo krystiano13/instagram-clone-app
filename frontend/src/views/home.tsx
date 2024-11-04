@@ -6,7 +6,7 @@ import { logOut } from "../utils/auth";
 
 import type { Post } from '../types/index'
 
-export function Home() {
+export default function Home() {
     const [posts, setPosts] = useState([])
 
     const navigate = useNavigate()

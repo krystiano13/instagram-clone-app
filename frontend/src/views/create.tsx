@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import {logOut} from "../utils/auth.ts";
 
-export function Create() {
+export default function Create() {
   const [errors, setErrors] = useState<string[]>([])
   const navigate = useNavigate()
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

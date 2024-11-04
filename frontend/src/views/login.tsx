@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/auth-context-provider.tsx";
 import { useNavigate } from "react-router";
 import { useContext, useState } from "react";
 
-export function Login() {
+export default function Login() {
   const [errors, setErrors] = useState<string[]>([])
   const auth = useContext(AuthContext)
   const navigate = useNavigate()

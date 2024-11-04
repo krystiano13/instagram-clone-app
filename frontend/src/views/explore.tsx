@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import type { Post } from "../types";
 import { logOut } from "../utils/auth.ts";
 
-export function Explore() {
+export default function Explore() {
     const [posts, setPosts] = useState<Post[]>([])
     const navigate = useNavigate()
 

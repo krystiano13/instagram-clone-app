@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { User } from "../types";
 import {logOut} from "../utils/auth.ts";
 
-export function Search() {
+export default function Search() {
   const [search, setSearch] = useState<string>("")
   const [users, setUsers] = useState<User[]>([])
 

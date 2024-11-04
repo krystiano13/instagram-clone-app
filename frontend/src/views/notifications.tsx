@@ -1,4 +1,4 @@
-export function Notifications() {
+export default function Notifications() {
     return (
         <></>
     )
