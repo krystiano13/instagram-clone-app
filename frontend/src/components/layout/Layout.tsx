@@ -42,10 +42,10 @@ export function Layout({ children }: Props) {
             </>
           )}
         <div
-          className={`w-calc z-100 ${
+          className={`w-[100vw] z-100 ${
             location.pathname !== "/login" &&
             location.pathname !== "/register" &&
-            "sm:ml-[20rem]"
+            "sm:ml-[20rem] w-calc"
           }`}
         >
           <section className="z-100 content">{children}</section>

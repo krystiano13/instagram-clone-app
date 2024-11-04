@@ -44,7 +44,7 @@ export default function Register() {
   }
 
   return (
-    <main className="w-full h-[100vh]  flex justify-center items-center">
+    <main className="w-full h-[100vh] flex justify-center items-center">
       <FormWrapper
         id="register-form"
         className="card w-[90vw] sm:w-96 bg-primary bg-opacity-60"
