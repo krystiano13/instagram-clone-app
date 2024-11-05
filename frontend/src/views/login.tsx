@@ -2,6 +2,7 @@ import { Input } from "../components/forms/input"
 import { FormWrapper } from "../components/forms/form"
 import { AuthContext } from "../contexts/auth-context-provider.tsx";
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 
 export default function Login() {
@@ -62,6 +63,12 @@ export default function Login() {
                     <p className="text-red-500 font-lg text-center my-2">{item}</p>
                 ))
             }
+          <NavLink
+              className="text-center text-secondary hover:text-primary transition-colors"
+              to="/register"
+          >
+              Don't have an account ?
+          </NavLink>
         </form>
       </FormWrapper>
     </main>

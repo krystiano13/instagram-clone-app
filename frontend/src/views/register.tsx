@@ -1,6 +1,7 @@
 import { Input } from "../components/forms/input"
 import { FormWrapper } from "../components/forms/form"
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 import { useState } from "react"
 
 export default function Register() {
@@ -75,6 +76,12 @@ export default function Register() {
                           <p className="text-red-500 font-lg text-center my-2">{item}</p>
                       ))
                   }
+                  <NavLink
+                      className="text-center text-secondary hover:text-primary transition-colors"
+                      to="/login"
+                  >
+                      Already have an account ?
+                  </NavLink>
               </form>
           }
           {
