@@ -11,6 +11,7 @@ export default function Profile() {
   const navigate = useNavigate()
 
   const [error, setError] = useState<boolean>(false)
+  const [followerId, setFollowerId] = useState<number>()
   const [profile, setProfile] = useState<Profile|undefined>()
   const [description, setDescription] = useState<string|null>(null)
   const [updateDescription, setUpdateDescription] = useState<boolean>(false)
@@ -71,7 +72,7 @@ export default function Profile() {
 
   function handleUnfollow() {
       if(!follow) return
-      fetch(`http://127.0.0.1:3000/followers/${id}/${localStorage.getItem("id")}`, {
+      fetch(`http://127.0.0.1:3000/followers/${followerId}`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",
@@ -195,7 +196,10 @@ export default function Profile() {
           })
           .then(data => {
               if(data.follow.length > 0) {
+                  console.log(`${id}/${localStorage.getItem("id")}`)
                   setFollow(true)
+                  setFollowerId(data.follow[0].id)
+                  console.log(data)
               }
               else {
                   setFollow(false)
@@ -205,7 +209,7 @@ export default function Profile() {
 
   return (
     <div className="w-calc flex flex-col items-center p-6 min-h-[100vh]">
-      <div className="sm:max-w-lg md:max-w-xl lg:max-w-2xl max-w-[90vw] w-[90vw]">
+        <div className="sm:max-w-lg md:max-w-xl lg:max-w-2xl max-w-[90vw] w-[90vw]">
         {
           !error &&
             <>

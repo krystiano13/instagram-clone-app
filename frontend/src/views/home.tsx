@@ -27,6 +27,8 @@ export default function Home() {
                 return res.json()
             })
             .then((data: { posts: Post[] }) => {
+                console.log(`http://127.0.0.1:3000/posts/followers/${localStorage.getItem("id")}`)
+                console.log(data)
                 setPosts([...data.posts as Post[]])
             })
     }, []);

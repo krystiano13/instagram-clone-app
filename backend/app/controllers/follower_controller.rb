@@ -4,7 +4,7 @@ class FollowerController < ApplicationController
         user_id = params[:user_id]
 
         if follower_id and user_id
-            follow = Follower.where("user_id", user_id).where("follower_id", follower_id)
+            follow = Follower.where(user_id: user_id).where(follower_id: follower_id)
 
             render json: {
                 follow: follow
@@ -34,11 +34,9 @@ class FollowerController < ApplicationController
     end
 
     def destroy
-        follower_id = params[:follower_id]
-        user_id = params[:user_id]
-        @follow = Follower.where("user_id", user_id).where("follower_id", follower_id)
+        follow = Follower.find(params[:id])
 
-        @follow.destroy_all
+        follow.destroy
 
         render json: {
             message: "Deleted"

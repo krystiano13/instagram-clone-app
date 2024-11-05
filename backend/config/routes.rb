@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   get "followers/:user_id/:follower_id", to: "follower#index"
   post "followers", to: "follower#create"
-  delete "followers/:user_id/:follower_id", to: "follower#destroy"
+  delete "followers/:id", to: "follower#destroy"
 
   get "posts", to: "post#index"
   get "posts/:id", to: "post#show"
