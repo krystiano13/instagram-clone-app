@@ -8,6 +8,7 @@
 - TailwindCSS
 - FlyonUI
 - React-Router
+- Minitest
 
 ## Setup
 - make sure you have node.js and ruby installed
