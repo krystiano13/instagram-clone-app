@@ -18,10 +18,4 @@ class AuthenticationControllerTest < ActionDispatch::IntegrationTest
     post "/auth/login", params: { password: "123456" }
     assert_response 401
   end
-
-  private
-  def create_mock_user
-    user = User.new(email: "test@test", user_name: "test", password: "123456")
-    user.save
-  end
 end
