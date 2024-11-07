@@ -1,7 +1,27 @@
 require "test_helper"
 
 class AuthenticationControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should log in" do
+    create_mock_user
+    post "/auth/login", params: { email: "test@test", password: "123456" }
+    assert_response :success
+  end
+
+  test "should not log in without password" do
+    create_mock_user
+    post "/auth/login", params: { email: "test@test"}
+    assert_response 401
+  end
+
+  test "should not log in without email" do
+    create_mock_user
+    post "/auth/login", params: { password: "123456" }
+    assert_response 401
+  end
+
+  private
+  def create_mock_user
+    user = User.new(email: "test@test", user_name: "test", password: "123456")
+    user.save
+  end
 end

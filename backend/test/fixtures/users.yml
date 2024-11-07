@@ -7,7 +7,7 @@
 one: {
   id: 1,
   user_name: "TestAccount",
-  email: "Test@Account"
+  email: "Test@Account",
 }
 # column: value
 #
