@@ -9,7 +9,3 @@ one: {
   user_id: 1,
   description: "description"
 }
-# column: value
-#
-two: {}
-# column: value

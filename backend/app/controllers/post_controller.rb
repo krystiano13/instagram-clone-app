@@ -94,7 +94,7 @@ class PostController < ApplicationController
     end
 
     def update
-        post = post.find(params[:id])
+        post = Post.find(params[:id])
 
         if post.update(post_params)
             render json: {
