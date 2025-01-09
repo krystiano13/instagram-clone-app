@@ -4,5 +4,8 @@ export default {
   theme: {
     extend: {},
   },
+  flyonui: {
+    themes: ["light"]
+  },
   plugins: [require("flyonui"), require("flyonui/plugin")],
 }
