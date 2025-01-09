@@ -1,12 +1,9 @@
 class CommentController < ApplicationController
     def index
-        comments = Comment.where(post_id: params[:post_id])
+        comments = Comment.includes(:user).where(post_id: params[:post_id])
 
-        comments_with_users = []
-
-        comments.each do |comment|
-            user = User.find_by(id: comment[:user_id])
-            comments_with_users.unshift({comment: comment, user_name: user[:user_name]})
+        comments_with_users = comments.map do |comment|
+            { comment: comment, user_name: comment.user.user_name }
         end
 
         render json: {
