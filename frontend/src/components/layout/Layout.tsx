@@ -12,7 +12,7 @@ export function Layout({ children }: Props) {
   const [navbarOpen, setNavbarOpen] = useState(false)
 
   return (
-    <div className="w-[100vw] bg-slate-50 overflow-x-hidden">
+    <div className="w-[100vw] min-h-[100vh] bg-slate-50 overflow-x-hidden">
       <main className="w-[100vw] flex flex-col sm:flex-row">
         {location.pathname !== "/login" &&
           location.pathname !== "/register" && (

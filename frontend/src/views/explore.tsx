@@ -56,7 +56,7 @@ export default function Explore() {
   }, [posts])
 
   return (
-    <div id="masonry" className="w-full bg-slate-50">
+    <div id="masonry" className="w-full h-[100vh] bg-slate-50">
         {
             posts && posts.map(item => (
                 <img src={item.post.image as string} onClick={() => navigate(`/post/${item.post.id}`)}/>
