@@ -42,7 +42,7 @@ export default function Create() {
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
       <FormWrapper>
-        <form onSubmit={(e) => handleSubmit(e)} className="w-[90vw] sm:w-96 bg-base-200 h-full flex flex-col gap-8 p-4">
+        <form id="form-shadow" onSubmit={(e) => handleSubmit(e)} className="w-[90vw] sm:w-96 bg-base-200 h-full flex flex-col gap-8 p-4">
           <h2 className="text-center text-2xl font-medium">Create Post</h2>
           <div className="form-control w-full">
             <textarea
